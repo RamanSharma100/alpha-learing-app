@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HeaderFragment"
+    android:paddingVertical="10sp"
+    android:background="@android:color/white"
+    android:elevation="4dp"
+    android:orientation="horizontal"
+    android:paddingEnd="50sp">
+
+    <Button
+        android:clickable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40sp"
+        android:background="@android:color/white"
+        android:elevation="0dp"
+        android:text="@string/header_fragment_alpha"
+        android:textColor="@android:color/black"
+        android:textSize="19sp"
+        app:backgroundTint="@android:color/white"
+        android:stateListAnimator="@null" />
+
+    <Button
+        android:id="@+id/profileBtn"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="5sp"
+        android:layout_marginEnd="5sp"
+        android:background="@android:color/white"
+        android:textAlignment="center"
+        app:backgroundTint="@android:color/white"
+        app:icon="@drawable/icons8_male_user_40"
+        app:iconTint="@android:color/black"
+        app:iconGravity="textTop"
+        android:paddingTop="12sp"
+        android:stateListAnimator="@null"
+        android:onClick="onClick"
+        />
+
+
+</FrameLayout>
