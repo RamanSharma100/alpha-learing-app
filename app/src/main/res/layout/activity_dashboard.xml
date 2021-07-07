@@ -34,6 +34,25 @@
         android:paddingEnd="40dp"
         android:paddingStart="0dp"
         />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_post_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80sp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:clickable="true"
+        android:layout_gravity="bottom|end"
+        android:focusable="true"
+        android:visibility="visible"
+        app:elevation="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#017bf5"
+        app:srcCompat="@drawable/icons8_plus_24"
+        android:backgroundTint="#017bf5"
+        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"

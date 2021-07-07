@@ -1,19 +1,21 @@
 package com.example.alphalearning;
 
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 public class User {
 
     private String name, email, uid, currentVideoId, currentCourseId, currentVideoDuration, currentVideoIndex;
     private boolean instructor;
-    private String[] createdCourses, enrolledCourses, startedCourses;
+    private List<String> createdCourses, enrolledCourses, startedCourses;
     private int students;
-    private Timestamp createdAt;
+    private Date createdAt;
 
     public User() {
     }
 
-    public User(String name, String email, String uid, String currentVideoId, String currentCourseId, String currentVideoDuration, String currentVideoIndex, boolean instructor, String[] createdCourses, String[] enrolledCourses, String[] startedCourses, int students, Timestamp createdAt) {
+    public User(String name, String email, String uid, String currentVideoId, String currentCourseId, String currentVideoDuration, String currentVideoIndex, boolean instructor, List<String>  createdCourses, List<String>  enrolledCourses, List<String>  startedCourses, int students, Date createdAt) {
         this.name = name;
         this.email = email;
         this.uid = uid;
@@ -93,27 +95,27 @@ public class User {
         this.instructor = instructor;
     }
 
-    public String[] getCreatedCourses() {
+    public List<String>  getCreatedCourses() {
         return createdCourses;
     }
 
-    public void setCreatedCourses(String[] createdCourses) {
+    public void setCreatedCourses(List<String>  createdCourses) {
         this.createdCourses = createdCourses;
     }
 
-    public String[] getEnrolledCourses() {
+    public List<String>  getEnrolledCourses() {
         return enrolledCourses;
     }
 
-    public void setEnrolledCourses(String[] enrolledCourses) {
+    public void setEnrolledCourses(List<String>  enrolledCourses) {
         this.enrolledCourses = enrolledCourses;
     }
 
-    public String[] getStartedCourses() {
+    public List<String>  getStartedCourses() {
         return startedCourses;
     }
 
-    public void setStartedCourses(String[] startedCourses) {
+    public void setStartedCourses(List<String>  startedCourses) {
         this.startedCourses = startedCourses;
     }
 
@@ -125,11 +127,11 @@ public class User {
         this.students = students;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "991701167320",
+    "project_id": "alpha-learning-app",
+    "storage_bucket": "alpha-learning-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991701167320:android:d72eab6390ada562273bad",
+        "android_client_info": {
+          "package_name": "com.example.alphalearning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991701167320-tadqg6iq577hia9jt7n3u7qie9u9ubhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuCKCRMZOBNoc0DAZHV1FvTtbmAEfqCes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991701167320-tadqg6iq577hia9jt7n3u7qie9u9ubhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

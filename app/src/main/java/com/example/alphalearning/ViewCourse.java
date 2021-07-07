@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ViewCourse extends AppCompatActivity {
 
-    Videos[] videos = new Videos[2];
+    ArrayList<Videos> videos;
     RecyclerView videosListView;
     VideoView videoView;
     ProgressBar bufferingVideo;
@@ -38,8 +38,6 @@ public class ViewCourse extends AppCompatActivity {
 
         bufferingVideo = findViewById(R.id.bufferingVideo);
 
-        videos[0] = (new Videos("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "Test Title 1", "test course id", "Raman Sharma", new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime()))  );
-        videos[1] = (new Videos("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "Test Title 2", "test course id", "Raman Sharma", new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime())));
 
         videosListView.setLayoutManager(new LinearLayoutManager(ViewCourse.this, LinearLayoutManager.VERTICAL, false));
         VideosListAdaptor adapter = new VideosListAdaptor(ViewCourse.this,videos);
@@ -49,7 +47,7 @@ public class ViewCourse extends AppCompatActivity {
 
 
         MediaController mediaController= new MediaController(this);
-        Uri uri = Uri.parse(videos[0].getVideoUrl());
+        Uri uri = Uri.parse(videos.get(0).getVideoUrl());
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
         videoView.setVideoURI(uri);
@@ -84,7 +82,7 @@ public class ViewCourse extends AppCompatActivity {
 
     // calling in videosList adapter
     public void onClickCalled(View view, int position){
-        Uri uri = Uri.parse(videos[position].getVideoUrl());
+        Uri uri = Uri.parse(videos.get(position).getVideoUrl());
         videoView.stopPlayback();
         videoView.setVideoURI(uri);
         videoView.start();

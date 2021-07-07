@@ -1,17 +1,20 @@
 package com.example.alphalearning;
 
+
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 public class Course {
     private String category, createdBy, name, thumbnail;
-    private String[] enrolledBy, videos;
+    private List<String> enrolledBy, videos;
     private int students;
-    private Timestamp updatedAt, createdAt;
+    private Date updatedAt, createdAt;
 
     public Course() {
     }
 
-    public Course(String category, String createdBy, String name, String thumbnail, String[] enrolledBy, String[] videos, int students, Timestamp updatedAt, Timestamp createdAt) {
+    public Course(String category, String createdBy, String name, String thumbnail, List<String> enrolledBy, List<String> videos, int students, Date updatedAt, Date createdAt) {
         this.category = category;
         this.createdBy = createdBy;
         this.name = name;
@@ -55,19 +58,19 @@ public class Course {
         this.thumbnail = thumbnail;
     }
 
-    public String[] getEnrolledBy() {
+    public List<String> getEnrolledBy() {
         return enrolledBy;
     }
 
-    public void setEnrolledBy(String[] enrolledBy) {
+    public void setEnrolledBy(List<String> enrolledBy) {
         this.enrolledBy = enrolledBy;
     }
 
-    public String[] getVideos() {
+    public List<String> getVideos() {
         return videos;
     }
 
-    public void setVideos(String[] videos) {
+    public void setVideos(List<String> videos) {
         this.videos = videos;
     }
 
@@ -79,19 +82,19 @@ public class Course {
         this.students = students;
     }
 
-    public Timestamp getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 }

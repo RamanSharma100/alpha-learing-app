@@ -1,15 +1,15 @@
 package com.example.alphalearning;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class Videos {
 
     private String videoUrl,videoTitle,courseId,videoBy;
-    private Timestamp createdAt,updatedAt;
+    private Date createdAt,updatedAt;
 
     public Videos(){}
 
-    public Videos(String videoUrl, String videoTitle, String courseId, String videoBy, Timestamp createdAt, Timestamp updatedAt) {
+    public Videos(String videoUrl, String videoTitle, String courseId, String videoBy, Date createdAt, Date updatedAt) {
         this.videoUrl = videoUrl;
         this.videoTitle = videoTitle;
         this.courseId = courseId;
@@ -51,19 +51,19 @@ public class Videos {
         this.videoBy = videoBy;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 

@@ -22,7 +22,7 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
 
 
     private Context context;
-    private Videos videosList[];
+    private ArrayList<Videos> videosList;
     private  ViewGroup parent;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -35,10 +35,8 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
     public VideosListAdaptor(){}
 
 
-    public VideosListAdaptor(Context context,Videos []videosList) {
+    public VideosListAdaptor(Context context,ArrayList<Videos> videosList) {
         this.videosList = videosList;
-        Log.i("ViewCourse", videosList[0].getVideoTitle());
-        Log.i("ViewCourse", videosList[1].getVideoTitle());
         this.context = context;
     }
 
@@ -59,7 +57,7 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
         numberCount = holder.itemView.findViewById(R.id.titleCount);
         title = holder.itemView.findViewById(R.id.titleTile);
 
-        title.setText(videosList[position].getVideoTitle());
+        title.setText(videosList.get(position).getVideoTitle());
 
         String positionString = (position+1+"");
         numberCount.setText(positionString);
@@ -77,7 +75,7 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
 
     @Override
     public int getItemCount() {
-        return videosList.length;
+        return videosList.size();
     }
 
 
