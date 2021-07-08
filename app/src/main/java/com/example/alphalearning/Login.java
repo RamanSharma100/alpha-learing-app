@@ -3,6 +3,7 @@ package com.example.alphalearning;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,7 +61,9 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                                 user = auth.getCurrentUser();
 
-
+                                Intent intent=  new Intent(Login.this, Dashboard.class);
+                                startActivity(intent);
+                                finish();
                             }else{
                                 Toast.makeText(Login.this, "Invalid Email or Password!", Toast.LENGTH_SHORT).show();
                             }

@@ -35,7 +35,7 @@
         android:paddingStart="0dp"
         />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_post_btn"
+        android:id="@+id/addCourseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="80sp"
@@ -50,8 +50,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="#017bf5"
+
         app:srcCompat="@drawable/icons8_plus_24"
         android:backgroundTint="#017bf5"
+        app:tint="@android:color/white"
         />
 
     <com.google.android.material.tabs.TabLayout
@@ -82,12 +84,6 @@
             android:scaleType="fitCenter"
             android:text="Courses" />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/icons8_search_24"
-            android:scaleType="fitCenter"
-            android:text="Search" />
     </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Course {
-    private String category, createdBy, name, thumbnail;
+    private String category, createdBy, name, thumbnail,description;
     private List<String> enrolledBy, videos;
     private int students;
     private Date updatedAt, createdAt;
@@ -14,7 +14,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(String category, String createdBy, String name, String thumbnail, List<String> enrolledBy, List<String> videos, int students, Date updatedAt, Date createdAt) {
+    public Course(String category, String createdBy, String name, String thumbnail, List<String> enrolledBy, List<String> videos, int students, Date updatedAt, Date createdAt, String description) {
         this.category = category;
         this.createdBy = createdBy;
         this.name = name;
@@ -24,6 +24,7 @@ public class Course {
         this.students = students;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+        this.description = description;
     }
 
     public String getCategory() {
@@ -96,5 +97,13 @@ public class Course {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

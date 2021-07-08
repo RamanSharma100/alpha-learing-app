@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp"
+    android:orientation="vertical"
+    android:layout_marginTop="5dp"
+    tools:context=".CreateCourse"
+    android:background="@android:color/white">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cname_til"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:textColorHint="@android:color/black" >
+
+
+    <EditText
+        android:id="@+id/courseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Couse Name"
+        android:inputType="text"
+        android:textColor="#171616"
+        android:textColorHint="#4E4D4D"
+        android:textSize="20sp" />
+</com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/coursecategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/Categories"
+        android:layout_marginTop="30dp"
+        />
+
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/desctil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:textColorHint="@android:color/black" >
+
+    <EditText
+        android:id="@+id/courseDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="text"
+        android:textColor="#171616"
+        android:textColorHint="#4E4D4D"
+        android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnnext"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button_rounded"
+        android:backgroundTint="#017bf5"
+        android:text="Next"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        app:backgroundTint="#017BF5" />
+
+
+</LinearLayout>
+
+
+
+
