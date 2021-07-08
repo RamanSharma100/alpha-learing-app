@@ -22,6 +22,7 @@ import java.util.List;
 public class CoursesList extends Fragment {
 
     private List<Course> courses = new ArrayList<>();
+    private List<String> courseIds = new ArrayList<>();
     private String userId;
     private boolean instructor;
     private RecyclerView recyclerView;
@@ -46,12 +47,13 @@ public class CoursesList extends Fragment {
         instructor = getArguments().getBoolean("instructor");
         userId = getArguments().getString("userId");
         courses = HomeScreenFragment.courses;
+        courseIds = HomeScreenFragment.courseIds;
 
         View view = inflater.inflate(R.layout.fragment_courses_list, container, false);
         recyclerView = view.findViewById(R.id.yourCoursesRecyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        CourseListAdaptor adapter = new CourseListAdaptor(getContext(),courses,userId);
+        CourseListAdaptor adapter = new CourseListAdaptor(getContext(),courses,userId,courseIds);
         recyclerView.setAdapter(adapter);
 
 

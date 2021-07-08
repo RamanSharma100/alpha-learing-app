@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,10 +38,14 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        final ProgressDialog progressDialog = new ProgressDialog(Dashboard.this);
+        progressDialog.setMessage("Fetching....");
+
         try {
             getSupportActionBar().hide();
         }catch(NullPointerException e){}
 
+        progressDialog.show();
 
 
 
@@ -68,6 +73,8 @@ public class Dashboard extends AppCompatActivity {
                 if(!userData.isInstructor()){
                     floatingActionButton.setVisibility(View.GONE);
                 }
+
+                progressDialog.dismiss();
             }
         });
 

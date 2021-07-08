@@ -39,6 +39,7 @@ public class HomeScreenFragment extends Fragment {
 
 
     public static List<Course> courses = new ArrayList<>();
+    public static List<String> courseIds = new ArrayList<>();
     private FirebaseUser user;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
@@ -77,6 +78,7 @@ public class HomeScreenFragment extends Fragment {
                            for(DocumentSnapshot document : queryDocumentSnapshots){
                                Course course = document.toObject(Course.class);
                                courses.add(course);
+                               courseIds.add(document.getId());
                            }
                             if(courses.isEmpty()){
                                 Fragment fragment = new NotFoundFragment();

@@ -1,8 +1,10 @@
 package com.example.alphalearning;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
 
     private Context context;
     private List<Course> coursesList;
+    private List<String> courseIds;
     private  ViewGroup parent;
     private String userId;
 
@@ -41,10 +44,11 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
 
 
 
-    public CourseListAdaptor(Context context, List<Course> coursesList, String userId) {
+    public CourseListAdaptor(Context context, List<Course> coursesList, String userId, List<String> courseIds) {
         this.coursesList = coursesList;
         this.context = context;
         this.userId = userId;
+        this.courseIds = courseIds;
     }
 
     private Bitmap getImageBitmap(String src) {
@@ -93,6 +97,18 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
 
         Bitmap bitmapImg = this.getImageBitmap(coursesList.get(position).getThumbnail());
         courseImage.setImageBitmap(bitmapImg);
+
+        courseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(parent.getContext(), CourseDescription.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("courseId", courseIds.get(position));
+                bundle.putString("userId", userId);
+                intent.putExtras(bundle);
+                parent.getContext().startActivity(intent);
+            }
+        });
 
 
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
