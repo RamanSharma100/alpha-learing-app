@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -27,7 +28,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -47,6 +50,7 @@ public class HomeScreenFragment extends Fragment {
     private User userData;
     private TextView greetUser;
     private ProgressBar progressBar;
+    private View view;
 
 
 
@@ -56,7 +60,7 @@ public class HomeScreenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
+        view = inflater.inflate(R.layout.fragment_home_screen, container, false);
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -78,61 +82,52 @@ public class HomeScreenFragment extends Fragment {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             courses.clear();
+                            courseIds.clear();
 
-                           for(DocumentSnapshot document : queryDocumentSnapshots){
-                               Course course = document.toObject(Course.class);
-                               courses.add(course);
-                               courseIds.add(document.getId());
-                           }
-
-                           firestore.collection("courses").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                               @Override
-                               public void onSuccess(QuerySnapshot documentSnapshots) {
-                                   for(DocumentSnapshot course: documentSnapshots){
-                                       if(userData.getEnrolledCourses().indexOf(course.getId()) >= 0){
-                                           Course course2 = documentSnapshot.toObject(Course.class);
-                                           courses.add(course2);
-                                           courseIds.add(documentSnapshot.getId());
-                                       }
-                                   }
-                                   if(courses.isEmpty()){
-                                       Fragment fragment = new NotFoundFragment();
-                                       Bundle arguments = new Bundle();
-                                       arguments.putBoolean( "instructor" , userData.isInstructor());
-                                       fragment.setArguments(arguments);
-                                       final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                                       ft.replace(R.id.courses, fragment);
-                                       ft.commit();
-                                       progressBar.setVisibility(View.GONE);
-                                   }else{
-                                       Fragment fragment = new CoursesList();
-                                       Bundle arguments = new Bundle();
-                                       arguments.putBoolean( "instructor" , userData.isInstructor());
-                                       arguments.putString("userId", userData.getUid());
-                                       fragment.setArguments(arguments);
-                                       final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                                       ft.replace(R.id.courses, fragment);
-                                       ft.commit();
-                                       progressBar.setVisibility(View.GONE);
-                                   }
-                               }
-                           }).addOnFailureListener(new OnFailureListener() {
-                               @Override
-                               public void onFailure(@NonNull Exception e) {
-                                   Toast.makeText(getContext(), "no courses found enrolled by you", Toast.LENGTH_SHORT).show();
-                               }
-                           });
-
-
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "no courses found created by you", Toast.LENGTH_SHORT).show();
+                            for(DocumentSnapshot document : queryDocumentSnapshots){
+                                Course course = document.toObject(Course.class);
+                                courses.add(course);
+                                courseIds.add(document.getId());
+                            }
+                            firestore.collection("courses").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot documentSnapshots) {
+                                    for(DocumentSnapshot course: documentSnapshots){
+                                        if(userData.getEnrolledCourses().indexOf(course.getId()) >= 0){
+                                            Course course2 = documentSnapshot.toObject(Course.class);
+                                            courses.add(course2);
+                                            courseIds.add(documentSnapshot.getId());
+                                        }
+                                    }
+                                    if(courses.isEmpty()){
+                                        Fragment fragment = new NotFoundFragment();
+                                        Bundle arguments = new Bundle();
+                                        arguments.putBoolean( "instructor" , userData.isInstructor());
+                                        fragment.setArguments(arguments);
+                                        final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                                        ft.replace(R.id.courses, fragment);
+                                        ft.commit();
+                                        progressBar.setVisibility(View.GONE);
+                                    }else{
+                                        Fragment fragment = new CoursesList();
+                                        Bundle arguments = new Bundle();
+                                        arguments.putBoolean( "instructor" , userData.isInstructor());
+                                        arguments.putString("userId", userData.getUid());
+                                        fragment.setArguments(arguments);
+                                        final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                                        ft.replace(R.id.courses, fragment);
+                                        ft.commit();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "no courses found enrolled by you", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
-
                 }}
         }).addOnFailureListener(new OnFailureListener() {
             @Override

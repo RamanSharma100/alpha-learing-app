@@ -1,6 +1,7 @@
 package com.example.alphalearning;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,7 +22,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -32,10 +35,12 @@ public class Dashboard extends AppCompatActivity {
     private FirebaseUser user;
     public static User userData;
     private FirebaseFirestore firestore;
+    private boolean shouldExecuteOnResume = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shouldExecuteOnResume = false;
         setContentView(R.layout.activity_dashboard);
 
         final ProgressDialog progressDialog = new ProgressDialog(Dashboard.this);
@@ -52,11 +57,7 @@ public class Dashboard extends AppCompatActivity {
         // home fragment
 
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.Screens, new HomeScreenFragment());
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.commit();
+
 
 
         firestore  = FirebaseFirestore.getInstance();
@@ -73,7 +74,11 @@ public class Dashboard extends AppCompatActivity {
                 if(!userData.isInstructor()){
                     floatingActionButton.setVisibility(View.GONE);
                 }
-
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.Screens, new HomeScreenFragment());
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
                 progressDialog.dismiss();
             }
         });
@@ -92,6 +97,32 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(shouldExecuteOnResume){
+            final ProgressDialog progressDialog = new ProgressDialog(Dashboard.this);
+            progressDialog.setMessage("Fetching....");
 
+            progressDialog.show();
+            firestore.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    userData = documentSnapshot.toObject(User.class);
 
+                    if(!userData.isInstructor()){
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.Screens, new HomeScreenFragment());
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft.commit();
+                    progressDialog.dismiss();
+                }
+            });
+        }else{
+            shouldExecuteOnResume = true;
+        }
+    }
 }

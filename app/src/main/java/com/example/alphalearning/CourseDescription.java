@@ -115,12 +115,14 @@ public class CourseDescription extends AppCompatActivity {
                         }
                     });
                 }else{
-                    Intent intent = new Intent(CourseDescription.this, EditCourse.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("courseId", courseId);
-                    bundle.putString("userId", userId);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                        Intent intent = new Intent(CourseDescription.this, EditCourse.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("courseId", courseId);
+                        bundle.putString("userId", userId);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+
                 }
             }
         });
@@ -128,12 +130,17 @@ public class CourseDescription extends AppCompatActivity {
         viewCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CourseDescription.this, ViewCourse.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("userId", userId);
-                bundle.putString("courseId", courseId);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if(course.getVideos().size() > 0) {
+                    Intent intent = new Intent(CourseDescription.this, ViewCourse.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", userId);
+                    bundle.putString("courseId", courseId);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(CourseDescription.this, "This course is not having any videos", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

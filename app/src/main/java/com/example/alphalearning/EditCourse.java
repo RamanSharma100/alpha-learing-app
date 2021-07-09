@@ -1,6 +1,8 @@
 package com.example.alphalearning;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
@@ -12,11 +14,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -36,23 +41,21 @@ public class EditCourse extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private RecyclerView recyclerView;
     private TextView textView;
+    private EditCourseVideosListAdaptor adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         try {
             getSupportActionBar().hide();
         }catch(NullPointerException e){}
-
         setContentView(R.layout.activity_edit_course);
 
 
 
         firestore = FirebaseFirestore.getInstance();
 
-        final ProgressDialog progressDialog = new ProgressDialog(EditCourse.this);
-        progressDialog.setMessage("Fetching...");
-        progressDialog.show();
 
         imageView = findViewById(R.id.editCourseImage);
         imgDelBtn = findViewById(R.id.editCourseImageUpdateBtn);
@@ -64,37 +67,8 @@ public class EditCourse extends AppCompatActivity {
         course = HomeScreenFragment.courses.get(HomeScreenFragment.courseIds.indexOf(courseId));
 
 
-        firestore.collection("videos").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()){
-                    Log.e("hello", course.getVideos().indexOf(documentSnapshot.getId())+"");
-                        if(course.getVideos().indexOf(documentSnapshot.getId())  >= 0) {
-                            Videos video = documentSnapshot.toObject(Videos.class);
-                            videosList.add(video);
-                            videoIds.add(documentSnapshot.getId());
-                        }
-                }
+        fetchData();
 
-                if(videosList.isEmpty()){
-                    textView.setText("No videos found");
-                    recyclerView.setVisibility(View.GONE);
-                }else{
-                    textView.setVisibility(View.GONE);
-                }
-
-                if(course.getThumbnail().equals("")){
-                    imageView.setImageResource(R.drawable.no_image_found);
-                }else{
-                    Bitmap imgBitmap = CourseDescription.getImageBitmap(course.getThumbnail());
-                    imageView.setImageBitmap(imgBitmap);
-                }
-
-
-
-                progressDialog.dismiss();
-            }
-        });
 
 
         imgDelBtn.setOnClickListener(new View.OnClickListener() {
@@ -118,4 +92,50 @@ public class EditCourse extends AppCompatActivity {
 
 
     }
+
+    private void fetchData(){
+        final ProgressDialog progressDialog = new ProgressDialog(EditCourse.this);
+        progressDialog.setMessage("Fetching...");
+        progressDialog.show();
+        firestore.collection("videos").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                videosList.clear();
+                videoIds.clear();
+                for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()){
+                    Log.e("hello", course.getVideos().indexOf(documentSnapshot.getId())+"");
+                    if(course.getVideos().indexOf(documentSnapshot.getId())  >= 0) {
+                        Videos video = documentSnapshot.toObject(Videos.class);
+                        videosList.add(video);
+                        videoIds.add(documentSnapshot.getId());
+                    }
+                }
+
+                if(videosList.isEmpty()){
+                    textView.setText("No videos found");
+                    recyclerView.setVisibility(View.GONE);
+                }else{
+                    textView.setVisibility(View.GONE);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(EditCourse.this, LinearLayoutManager.VERTICAL, false));
+                    adapter = new EditCourseVideosListAdaptor(EditCourse.this,videosList,videoIds,courseId);
+                    recyclerView.setAdapter(adapter);
+                }
+
+                if(course.getThumbnail().equals("")){
+                    imageView.setImageResource(R.drawable.no_image_found);
+                }else{
+                    Bitmap imgBitmap = CourseDescription.getImageBitmap(course.getThumbnail());
+                    imageView.setImageBitmap(imgBitmap);
+                }
+
+
+
+                progressDialog.dismiss();
+
+            }
+        });
+    }
+
+
 }

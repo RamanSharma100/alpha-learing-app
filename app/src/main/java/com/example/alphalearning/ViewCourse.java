@@ -94,6 +94,8 @@ public class ViewCourse extends AppCompatActivity {
 
 
                 MediaController mediaController= new MediaController(ViewCourse.this);
+
+
                 Uri uri = Uri.parse(videos.get(0).getVideoUrl());
                 mediaController.setAnchorView(videoView);
                 videoView.setMediaController(mediaController);
