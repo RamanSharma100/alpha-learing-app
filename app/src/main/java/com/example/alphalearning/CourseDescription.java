@@ -140,7 +140,7 @@ public class CourseDescription extends AppCompatActivity {
 
     }
 
-    private Bitmap getImageBitmap(String src) {
+    public static Bitmap getImageBitmap(String src) {
         try {
             URL url = new URL(src);
             Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());

@@ -1,22 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditCourse">
+    tools:context=".EditCourse"
+    android:orientation="vertical"
+    >
 
-    <TextView
-        android:id="@+id/textEditCourse"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/editCourseImage"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Edit Course"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="25dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:contentDescription="course thumbnail"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/deleteImageEditCourseLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editCourseImage"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:padding="10dp"
+
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/editCourseImageUpdateBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Update New Image"
+
+            />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/editCourseVideoLists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteImageEditCourseLayout"
+        android:layout_marginTop="0dp" />
+
+    <TextView
+        android:id="@+id/editCourseNoVideosText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteImageEditCourseLayout"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="No Videos Found" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editCourseAddVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editCourseVideoLists"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Add Video" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editCourseDeleteCourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editCourseAddVideo"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:text="Delete Course" />
+
+
+</RelativeLayout>

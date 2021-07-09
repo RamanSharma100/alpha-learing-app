@@ -1,14 +1,20 @@
 package com.example.alphalearning;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,8 +31,11 @@ public class EditCourse extends AppCompatActivity {
     private String userId;
     private List<Videos> videosList = new ArrayList<>();
     private List<String> videoIds = new ArrayList<>();
-    private TextView textView;
+    private ImageView imageView;
+    private MaterialButton imgDelBtn;
     private FirebaseFirestore firestore;
+    private RecyclerView recyclerView;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +54,10 @@ public class EditCourse extends AppCompatActivity {
         progressDialog.setMessage("Fetching...");
         progressDialog.show();
 
-        textView = findViewById(R.id.textEditCourse);
-
+        imageView = findViewById(R.id.editCourseImage);
+        imgDelBtn = findViewById(R.id.editCourseImageUpdateBtn);
+        recyclerView = findViewById(R.id.editCourseVideoLists);
+        textView = findViewById(R.id.editCourseNoVideosText);
 
         courseId = getIntent().getExtras().getString("courseId");
         userId = getIntent().getExtras().getString("userId");
@@ -67,12 +78,28 @@ public class EditCourse extends AppCompatActivity {
 
                 if(videosList.isEmpty()){
                     textView.setText("No videos found");
+                    recyclerView.setVisibility(View.GONE);
                 }else{
-                    String text = ""+videosList.size();
-                    textView.setText(text);
+                    textView.setVisibility(View.GONE);
                 }
 
+                Bitmap imgBitmap = CourseDescription.getImageBitmap(course.getThumbnail());
+                imageView.setImageBitmap(imgBitmap);
+
                 progressDialog.dismiss();
+            }
+        });
+
+
+        imgDelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditCourse.this, AddCourseImage.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("courseId", courseId);
+                bundle.putString("userId", userId);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

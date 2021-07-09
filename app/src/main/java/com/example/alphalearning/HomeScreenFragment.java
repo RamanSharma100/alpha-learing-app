@@ -87,9 +87,9 @@ public class HomeScreenFragment extends Fragment {
 
                            firestore.collection("courses").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                @Override
-                               public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                   for(DocumentSnapshot course: queryDocumentSnapshots.getDocuments()){
-                                       if(courseIds.indexOf(course.getId()) >= 0){
+                               public void onSuccess(QuerySnapshot documentSnapshots) {
+                                   for(DocumentSnapshot course: documentSnapshots){
+                                       if(userData.getEnrolledCourses().indexOf(course.getId()) >= 0){
                                            Course course2 = documentSnapshot.toObject(Course.class);
                                            courses.add(course2);
                                            courseIds.add(documentSnapshot.getId());
