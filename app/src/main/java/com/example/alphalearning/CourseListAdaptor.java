@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,8 +104,15 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
             courseBtn.setText("Go to course");
         }
 
-        Bitmap bitmapImg = this.getImageBitmap(coursesList.get(position).getThumbnail());
-        courseImage.setImageBitmap(bitmapImg);
+        if(coursesList.get(position).getThumbnail().equals("")){
+            courseImage.setImageResource(R.drawable.no_image_found);
+        }else{
+            Bitmap bitmapImg = this.getImageBitmap(coursesList.get(position).getThumbnail());
+
+            courseImage.setImageBitmap(bitmapImg);
+        }
+
+
 
         courseImage.setOnClickListener(new View.OnClickListener() {
             @Override

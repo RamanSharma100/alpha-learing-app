@@ -66,10 +66,17 @@ public class CourseDescription extends AppCompatActivity {
         editCourse = findViewById(R.id.btnCourseDesc);
         goBack = findViewById(R.id.backBtnCourseDesc);
 
-        Bitmap bitmapImg = getImageBitmap(course.getThumbnail());
 
-        if(bitmapImg != null)
-            courseImage.setImageBitmap(bitmapImg);
+        if(course.getThumbnail().equals("")){
+           courseImage.setImageResource(R.drawable.no_image_found);
+        }else{
+            Bitmap bitmapImg = getImageBitmap(course.getThumbnail());
+
+            if(bitmapImg != null)
+                courseImage.setImageBitmap(bitmapImg);
+        }
+
+
 
         progressDialog.dismiss();
 

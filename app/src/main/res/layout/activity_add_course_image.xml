@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddCourseImage">
+    tools:context=".AddCourseImage"
+    android:background="@color/white"
+    android:layout_marginTop="20dp"
+    android:padding="10dp">
+    <ImageView
+        android:id="@+id/addCourseImage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/browseCourseImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addCourseImage"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#017BF5"
+        android:text="Browse Image"/>
+
+    <Button
+        android:id="@+id/uploadCourseImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/browseCourseImage"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="#017BF5"
+        android:text="Update Image" />
+
+</RelativeLayout>

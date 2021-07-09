@@ -83,8 +83,14 @@ public class EditCourse extends AppCompatActivity {
                     textView.setVisibility(View.GONE);
                 }
 
-                Bitmap imgBitmap = CourseDescription.getImageBitmap(course.getThumbnail());
-                imageView.setImageBitmap(imgBitmap);
+                if(course.getThumbnail().equals("")){
+                    imageView.setImageResource(R.drawable.no_image_found);
+                }else{
+                    Bitmap imgBitmap = CourseDescription.getImageBitmap(course.getThumbnail());
+                    imageView.setImageBitmap(imgBitmap);
+                }
+
+
 
                 progressDialog.dismiss();
             }
