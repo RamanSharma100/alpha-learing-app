@@ -30,7 +30,7 @@ public class Dashboard extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private FirebaseAuth auth;
     private FirebaseUser user;
-    private User userData;
+    public static User userData;
     private FirebaseFirestore firestore;
 
     @Override

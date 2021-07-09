@@ -22,8 +22,11 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
 
 
     private Context context;
-    private ArrayList<Videos> videosList;
+    private List<Videos> videosList = new ArrayList<>();
+    private List<String> videoIds = new ArrayList<>();
     private  ViewGroup parent;
+    private String userId;
+    private int positionItem;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -35,9 +38,15 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
     public VideosListAdaptor(){}
 
 
-    public VideosListAdaptor(Context context,ArrayList<Videos> videosList) {
+    public void setPositon(int position){
+        this.positionItem = position;
+    }
+
+    public VideosListAdaptor(Context context,List<Videos> videosList, List<String> videoIds, String userId ) {
         this.videosList = videosList;
         this.context = context;
+        this.videoIds = videoIds;
+        this.userId = userId;
     }
 
     @NonNull
@@ -49,6 +58,9 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
                 .inflate(R.layout.videos_list_view, parent, false);
         return new ViewHolder(view);
     }
+
+
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
@@ -68,6 +80,13 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
                 ((ViewCourse) v.getContext()).onClickCalled(v,position);
             }
         });
+
+
+        if(positionItem == position){
+            ((ImageView) holder.itemView.findViewById(R.id.playCircleBtn) ).setImageResource(R.drawable.icons8_circle_24);
+        }else{
+            ((ImageView) holder.itemView.findViewById(R.id.playCircleBtn) ).setImageResource(R.drawable.icons8_circled_play_24);
+        }
 
 
 

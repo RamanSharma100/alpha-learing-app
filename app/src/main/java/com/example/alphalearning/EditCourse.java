@@ -71,6 +71,8 @@ public class EditCourse extends AppCompatActivity {
                     String text = ""+videosList.size();
                     textView.setText(text);
                 }
+
+                progressDialog.dismiss();
             }
         });
 
@@ -78,8 +80,6 @@ public class EditCourse extends AppCompatActivity {
 
 
 
-
-        progressDialog.dismiss();
 
 
 

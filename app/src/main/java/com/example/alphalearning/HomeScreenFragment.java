@@ -85,37 +85,46 @@ public class HomeScreenFragment extends Fragment {
                                courseIds.add(document.getId());
                            }
 
-                           for(String courseId : userData.getEnrolledCourses()){
-                               firestore.collection("courses").document(courseId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                   @Override
-                                   public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        Course course = documentSnapshot.toObject(Course.class);
-                                        courses.add(course);
-                                        courseIds.add(documentSnapshot.getId());
+                           firestore.collection("courses").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                               @Override
+                               public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                   for(DocumentSnapshot course: queryDocumentSnapshots.getDocuments()){
+                                       if(courseIds.indexOf(course.getId()) >= 0){
+                                           Course course2 = documentSnapshot.toObject(Course.class);
+                                           courses.add(course2);
+                                           courseIds.add(documentSnapshot.getId());
+                                       }
                                    }
-                               });
-                           }
+                                   if(courses.isEmpty()){
+                                       Fragment fragment = new NotFoundFragment();
+                                       Bundle arguments = new Bundle();
+                                       arguments.putBoolean( "instructor" , userData.isInstructor());
+                                       fragment.setArguments(arguments);
+                                       final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                                       ft.replace(R.id.courses, fragment);
+                                       ft.commit();
+                                       progressBar.setVisibility(View.GONE);
+                                   }else{
+                                       Fragment fragment = new CoursesList();
+                                       Bundle arguments = new Bundle();
+                                       arguments.putBoolean( "instructor" , userData.isInstructor());
+                                       arguments.putString("userId", userData.getUid());
+                                       fragment.setArguments(arguments);
+                                       final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                                       ft.replace(R.id.courses, fragment);
+                                       ft.commit();
+                                       progressBar.setVisibility(View.GONE);
+                                   }
+                               }
+                           }).addOnFailureListener(new OnFailureListener() {
+                               @Override
+                               public void onFailure(@NonNull Exception e) {
+                                   Toast.makeText(getContext(), "no courses found enrolled by you", Toast.LENGTH_SHORT).show();
+                               }
+                           });
 
-                            if(courses.isEmpty()){
-                                Fragment fragment = new NotFoundFragment();
-                                Bundle arguments = new Bundle();
-                                arguments.putBoolean( "instructor" , userData.isInstructor());
-                                fragment.setArguments(arguments);
-                                final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                                ft.replace(R.id.courses, fragment);
-                                ft.commit();
-                                progressBar.setVisibility(View.GONE);
-                            }else{
-                                Fragment fragment = new CoursesList();
-                                Bundle arguments = new Bundle();
-                                arguments.putBoolean( "instructor" , userData.isInstructor());
-                                arguments.putString("userId", userData.getUid());
-                                fragment.setArguments(arguments);
-                                final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                                ft.replace(R.id.courses, fragment);
-                                ft.commit();
-                                progressBar.setVisibility(View.GONE);
-                            }
+
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

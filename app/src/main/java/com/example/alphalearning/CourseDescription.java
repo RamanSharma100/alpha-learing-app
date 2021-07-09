@@ -118,6 +118,18 @@ public class CourseDescription extends AppCompatActivity {
             }
         });
 
+        viewCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CourseDescription.this, ViewCourse.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", userId);
+                bundle.putString("courseId", courseId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
 
 
 
