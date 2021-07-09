@@ -3,6 +3,7 @@ package com.example.alphalearning;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,8 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +33,7 @@ public class CourseDescription extends AppCompatActivity {
     private ImageView courseImage;
     private TextView courseName, courseDesc;
     private MaterialButton viewCourse, editCourse, goBack ;
+    private FirebaseFirestore firestore;
 
 
     @Override
@@ -37,6 +43,8 @@ public class CourseDescription extends AppCompatActivity {
         try {
             getSupportActionBar().hide();
         }catch(NullPointerException e){}
+
+        firestore = FirebaseFirestore.getInstance();
 
         progressDialog = new ProgressDialog(CourseDescription.this);
         progressDialog.setMessage("Fetching...");
@@ -80,6 +88,37 @@ public class CourseDescription extends AppCompatActivity {
                 finish();
             }
         });
+
+        editCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!userId.equals(course.getCreatedBy())){
+                    firestore.collection("courses").document(courseId).update("enrolledBy", FieldValue.arrayRemove(userId)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            firestore.collection("users").document(userId).update("enrolledCourses", FieldValue.arrayRemove(courseId)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(CourseDescription.this, "Course Un enrolled Successfully!!", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            });
+
+                        }
+                    });
+                }else{
+                    Intent intent = new Intent(CourseDescription.this, EditCourse.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("courseId", courseId);
+                    bundle.putString("userId", userId);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
 
 
 

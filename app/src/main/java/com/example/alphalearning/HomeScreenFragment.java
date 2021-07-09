@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class HomeScreenFragment extends Fragment {
     private FirebaseFirestore firestore;
     private User userData;
     private TextView greetUser;
+    private ProgressBar progressBar;
 
 
 
@@ -59,6 +61,8 @@ public class HomeScreenFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         user = auth.getCurrentUser();
+        progressBar = view.findViewById(R.id.yourCoursesProgress);
+
 
 //        getting user document from FireBase
 
@@ -80,6 +84,18 @@ public class HomeScreenFragment extends Fragment {
                                courses.add(course);
                                courseIds.add(document.getId());
                            }
+
+                           for(String courseId : userData.getEnrolledCourses()){
+                               firestore.collection("courses").document(courseId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                   @Override
+                                   public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        Course course = documentSnapshot.toObject(Course.class);
+                                        courses.add(course);
+                                        courseIds.add(documentSnapshot.getId());
+                                   }
+                               });
+                           }
+
                             if(courses.isEmpty()){
                                 Fragment fragment = new NotFoundFragment();
                                 Bundle arguments = new Bundle();
@@ -88,6 +104,7 @@ public class HomeScreenFragment extends Fragment {
                                 final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                                 ft.replace(R.id.courses, fragment);
                                 ft.commit();
+                                progressBar.setVisibility(View.GONE);
                             }else{
                                 Fragment fragment = new CoursesList();
                                 Bundle arguments = new Bundle();
@@ -97,6 +114,7 @@ public class HomeScreenFragment extends Fragment {
                                 final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                                 ft.replace(R.id.courses, fragment);
                                 ft.commit();
+                                progressBar.setVisibility(View.GONE);
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {

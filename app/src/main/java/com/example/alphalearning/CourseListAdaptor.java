@@ -11,11 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +36,7 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
     private List<String> courseIds;
     private  ViewGroup parent;
     private String userId;
+    private FirebaseFirestore firestore;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -72,6 +77,9 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
         this.parent = parent;
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.courses_list_view, parent, false);
+
+        firestore = FirebaseFirestore.getInstance();
+
         return new ViewHolder(view);
     }
 
@@ -110,13 +118,22 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
             }
         });
 
+        courseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(userId.equals(coursesList.get(position).getCreatedBy())){
+                    Intent intent = new Intent(parent.getContext(), EditCourse.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("courseId", courseIds.get(position));
+                    bundle.putString("userId", userId);
+                    intent.putExtras(bundle);
+                    parent.getContext().startActivity(intent);
+                }else{
+                    Toast.makeText(context, "View Course", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((ViewCourse) v.getContext()).onClickCalled(v,position);
-//            }
-//        });
 
 
 
