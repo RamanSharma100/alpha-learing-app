@@ -96,4 +96,9 @@ public class CreateCourse extends AppCompatActivity implements AdapterView.OnIte
         }
         return false;
     }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

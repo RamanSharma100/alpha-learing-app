@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddCourseVideo"
+    android:background="@color/white"
+    android:layout_marginTop="20dp"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/addVideoEdtTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:hint="Enter title"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textPersonName|textCapSentences"
+        android:padding="10dp"/>
+
+    <VideoView
+        android:id="@+id/addVideoView"
+        android:layout_width="wrap_content"
+        android:layout_height="199dp"
+        android:layout_below="@id/addVideoEdtTxt"
+        android:layout_marginTop="13dp" />
+
+    <Button
+        android:id="@+id/addVideoBrowseBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addVideoView"
+        android:layout_marginTop="22dp"
+        android:backgroundTint="#017BF5"
+        android:text="browse video" />
+
+    <Button
+        android:id="@+id/addVideoUploadBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addVideoBrowseBtn"
+        android:layout_marginTop="27dp"
+        android:backgroundTint="#017BF5"
+        android:text="upload video" />
+
+
+</RelativeLayout>

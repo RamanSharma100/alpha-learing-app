@@ -37,7 +37,7 @@ public class EditCourse extends AppCompatActivity {
     private List<Videos> videosList = new ArrayList<>();
     private List<String> videoIds = new ArrayList<>();
     private ImageView imageView;
-    private MaterialButton imgDelBtn;
+    private MaterialButton imgDelBtn, addVideoBtn;
     private FirebaseFirestore firestore;
     private RecyclerView recyclerView;
     private TextView textView;
@@ -61,6 +61,7 @@ public class EditCourse extends AppCompatActivity {
         imgDelBtn = findViewById(R.id.editCourseImageUpdateBtn);
         recyclerView = findViewById(R.id.editCourseVideoLists);
         textView = findViewById(R.id.editCourseNoVideosText);
+        addVideoBtn = findViewById(R.id.editCourseAddVideo);
 
         courseId = getIntent().getExtras().getString("courseId");
         userId = getIntent().getExtras().getString("userId");
@@ -84,7 +85,18 @@ public class EditCourse extends AppCompatActivity {
         });
 
 
-
+        addVideoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditCourse.this, AddCourseVideo.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("courseId", courseId);
+                bundle.putString("userId", userId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 
