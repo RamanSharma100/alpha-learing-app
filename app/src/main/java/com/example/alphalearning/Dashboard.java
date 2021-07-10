@@ -142,10 +142,23 @@ public class Dashboard extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if(shouldExecuteOnResume){
+
+
+
             final ProgressDialog progressDialog = new ProgressDialog(Dashboard.this);
             progressDialog.setMessage("Fetching....");
 
             progressDialog.show();
+
+
+            if(auth.getCurrentUser() == null){
+                Intent intent = new Intent(Dashboard.this, Login.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+
+
             firestore.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {

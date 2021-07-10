@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddCourseVideo"></activity>
+        <activity android:name=".UserProfile"></activity>
+        <activity android:name=".AddCourseVideo" />
         <activity
             android:name=".EditCourse"
             android:configChanges="orientation"

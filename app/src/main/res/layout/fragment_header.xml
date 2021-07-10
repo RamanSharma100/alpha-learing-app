@@ -39,7 +39,6 @@
         app:iconGravity="textTop"
         android:paddingTop="12sp"
         android:stateListAnimator="@null"
-        android:onClick="onClick"
         />
 
 
