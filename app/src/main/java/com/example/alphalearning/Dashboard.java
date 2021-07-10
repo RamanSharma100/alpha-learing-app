@@ -63,6 +63,7 @@ public class Dashboard extends AppCompatActivity {
         firestore  = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         floatingActionButton = findViewById(R.id.addCourseBtn);
+        tabLayout = findViewById(R.id.tabs);
 
         user = auth.getCurrentUser();
 
@@ -92,6 +93,43 @@ public class Dashboard extends AppCompatActivity {
                 bundle.putString("userId", user.getUid());
                 intent.putExtras(bundle);
                 startActivity(intent);
+
+            }
+        });
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Fragment fragment = new HomeScreenFragment();
+
+                switch (tab.getPosition()){
+                    case 0:
+                        break;
+                    case 1:
+                        fragment = new FindCourses();
+                        Bundle arguments = new Bundle();
+                        arguments.putBoolean( "instructor" , userData.isInstructor());
+                        arguments.putString("userId", userData.getUid());
+                        fragment.setArguments(arguments);
+                        break;
+                    default:
+                        break;
+                }
+
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.Screens, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
