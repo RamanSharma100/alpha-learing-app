@@ -70,6 +70,7 @@ public class Dashboard extends AppCompatActivity {
         firestore.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                 userData = documentSnapshot.toObject(User.class);
 
                 if(!userData.isInstructor()){

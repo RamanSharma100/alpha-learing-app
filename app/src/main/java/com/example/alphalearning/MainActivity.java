@@ -70,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 user = auth.getCurrentUser();
+
                 Intent intent=new Intent(MainActivity.this,Login.class);
 
                 if(user != null){

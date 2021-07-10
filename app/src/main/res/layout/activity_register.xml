@@ -3,27 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:background="#fff"
     tools:context=".Register"
     android:padding="15dp"
     android:paddingVertical="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="268dp"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:src="@mipmap/logo"
         android:transitionName="logo_image" />
 
     <TextView
-        android:layout_width="221dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
         android:fontFamily="@font/bungee"
-        android:text="Welcome"
-        android:textSize="40sp"
+        android:text="Register here"
+        android:textSize="30sp"
         android:transitionName="logo_text" />
 
     <TextView
@@ -43,12 +45,12 @@
         <!-- Full Name -->
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fullname"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
@@ -57,35 +59,16 @@
 
         <!-- =========================================================== -->
 
-        <!-- User Name -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/userName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:counterEnabled="true"
-            app:counterMaxLength="15">
-            "
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="User name"
-                android:transitionName="username_tran"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- =========================================================== -->
-
         <!-- Email id -->
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email"
+
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerEmail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Email Id"
@@ -97,36 +80,17 @@
 
         <!-- =========================================================== -->
 
-        <!-- Phone no. -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phoneNumber"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Phone Number"
-                android:transitionName="username_tran"
-                android:inputType="number"
-
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- =========================================================== -->
-
         <!-- Password -->
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
+
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Password"
@@ -136,15 +100,30 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Joined As"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/registerJoinedAs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <Button
+        android:id="@+id/registerSignUpBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Up"
         android:transitionName="login_tran"/>
 
     <Button
+        android:id="@+id/login_screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="already have an account login"

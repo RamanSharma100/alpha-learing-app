@@ -76,7 +76,7 @@ public class AddCourseImage extends AppCompatActivity {
         updateimage  = findViewById(R.id.uploadCourseImage);
 
 
-        if(course.getThumbnail().equals("")){
+        if(course.getThumbnail() == null ||course.getThumbnail().equals("")){
             imageView.setImageResource(R.drawable.no_image_found);
         }else{
             Bitmap imgBitmap = CourseDescription.getImageBitmap(course.getThumbnail());

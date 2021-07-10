@@ -2,6 +2,7 @@ package com.example.alphalearning;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class Login extends AppCompatActivity {
         editPassword = findViewById(R.id.password);
 
         final Button loginBtn = findViewById(R.id.loginBtn);
+        final Button signUp = findViewById(R.id.signup_screen);
         auth = FirebaseAuth.getInstance();
 
 
@@ -78,6 +80,14 @@ public class Login extends AppCompatActivity {
                 }else{
                     Toast.makeText(Login.this, "Please fill in all fields!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
             }
         });
     }

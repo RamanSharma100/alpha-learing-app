@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -56,11 +57,6 @@ public class CourseDescription extends AppCompatActivity {
 
         courseId = getIntent().getExtras().getString("courseId");
         userId = getIntent().getExtras().getString("userId");
-
-        course = HomeScreenFragment.courses.get(HomeScreenFragment.courseIds.indexOf(courseId));
-
-
-
         courseImage = findViewById(R.id.courseImageDesc);
         courseName = findViewById(R.id.headingCourseDesc);
         courseDesc = findViewById(R.id.descCourseDesc);
@@ -69,33 +65,54 @@ public class CourseDescription extends AppCompatActivity {
         goBack = findViewById(R.id.backBtnCourseDesc);
 
 
-        if(course.getThumbnail().equals("")){
-           courseImage.setImageResource(R.drawable.no_image_found);
-        }else{
-            Bitmap bitmapImg = getImageBitmap(course.getThumbnail());
-
-            if(bitmapImg != null)
-                courseImage.setImageBitmap(bitmapImg);
-        }
+        firestore.collection("courses").document(courseId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
 
+                if(documentSnapshot != null)
+                    course = documentSnapshot.toObject(Course.class);
 
-        progressDialog.dismiss();
+                Log.e("courseDes", documentSnapshot.getId()+" "+ courseId);
 
-        courseName.setText(course.getName());
-        courseDesc.setText(course.getDescription());
+                if(course.getThumbnail() == null ||course.getThumbnail().equals("")){
+                    courseImage.setImageResource(R.drawable.no_image_found);
+                }else{
+                    Bitmap bitmapImg = getImageBitmap(course.getThumbnail());
 
-        if(!userId.equals(course.getCreatedBy())){
-            editCourse.setText("Un-Enroll Course");
-        }
-        if(Dashboard.userData.getCreatedCourses().indexOf(courseId) == -1){
-            editCourse.setVisibility(View.GONE);
-        }
+                    if(bitmapImg != null)
+                        courseImage.setImageBitmap(bitmapImg);
+                }
 
-        if(Dashboard.userData.getEnrolledCourses().indexOf(courseId) == -1 && !userId.equals(course.getCreatedBy())){
-            viewCourse.setText("Enroll Course");
-        }
 
+
+                progressDialog.dismiss();
+
+                courseName.setText(course.getName());
+                courseDesc.setText(course.getDescription());
+
+                if(!userId.equals(course.getCreatedBy())){
+                    editCourse.setText("Un-Enroll Course");
+                }
+                if(Dashboard.userData.getCreatedCourses().indexOf(courseId) == -1){
+                    editCourse.setVisibility(View.GONE);
+                }
+
+                if(Dashboard.userData.getEnrolledCourses().indexOf(courseId) == -1 && !userId.equals(course.getCreatedBy())){
+                    viewCourse.setText("Enroll Course");
+                }
+
+
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CourseDescription.this, "fail!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         goBack.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +121,10 @@ public class CourseDescription extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+
 
         editCourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +168,7 @@ public class CourseDescription extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(CourseDescription.this, "Thanks for enrolling the course!", Toast.LENGTH_LONG).show();
+                                    finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

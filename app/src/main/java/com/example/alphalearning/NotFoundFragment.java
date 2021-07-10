@@ -36,6 +36,14 @@ public class NotFoundFragment extends Fragment {
             button.setText("Find Course");
         }
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(notFound){
+
+                }
+            }
+        });
         return view;
     }
 

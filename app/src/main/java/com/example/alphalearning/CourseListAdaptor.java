@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,8 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
 
 
     private Context context;
-    private List<Course> coursesList;
-    private List<String> courseIds;
+    private List<Course> coursesList = new ArrayList<>();
+    private List<String> courseIds =  new ArrayList<>();
     private  ViewGroup parent;
     private String userId, fragmentName;
     private FirebaseFirestore firestore;
@@ -115,7 +116,8 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
             courseBtn.setText("Go to course");
         }
 
-        if(coursesList.get(position).getThumbnail().equals("")){
+
+        if(coursesList.get(position).getThumbnail() == null || coursesList.get(position).getThumbnail().equals("")){
             courseImage.setImageResource(R.drawable.no_image_found);
         }else{
             Bitmap bitmapImg = this.getImageBitmap(coursesList.get(position).getThumbnail());
@@ -128,6 +130,7 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
         courseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("course", courseIds.get(position));
                 Intent intent = new Intent(parent.getContext(), CourseDescription.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("courseId", courseIds.get(position));

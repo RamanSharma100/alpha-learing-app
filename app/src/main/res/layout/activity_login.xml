@@ -28,7 +28,7 @@
         android:fontFamily="@font/bungee"
         android:text="Welcome Back!"
         android:textColor="#B4000000"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:transitionName="logo_text" />
 
     <TextView

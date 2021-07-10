@@ -135,7 +135,7 @@ public class EditCourse extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                 }
 
-                if(course.getThumbnail().equals("")){
+                if(course.getThumbnail() == null ||course.getThumbnail().equals("")){
                     imageView.setImageResource(R.drawable.no_image_found);
                 }else{
                     Bitmap imgBitmap = CourseDescription.getImageBitmap(course.getThumbnail());

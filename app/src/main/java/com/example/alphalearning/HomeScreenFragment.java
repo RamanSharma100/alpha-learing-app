@@ -83,22 +83,31 @@ public class HomeScreenFragment extends Fragment {
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             courses.clear();
                             courseIds.clear();
-
-                            for(DocumentSnapshot document : queryDocumentSnapshots){
-                                Course course = document.toObject(Course.class);
-                                courses.add(course);
-                                courseIds.add(document.getId());
+                            if(!queryDocumentSnapshots.isEmpty()){
+                                for(DocumentSnapshot document : queryDocumentSnapshots){
+                                    Course course = document.toObject(Course.class);
+                                    courses.add(course);
+                                    courseIds.add(document.getId());
+                                }
                             }
+
                             firestore.collection("courses").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot documentSnapshots) {
-                                    for(DocumentSnapshot course: documentSnapshots){
-                                        if(userData.getEnrolledCourses().indexOf(course.getId()) >= 0){
-                                            Course course2 = documentSnapshot.toObject(Course.class);
-                                            courses.add(course2);
-                                            courseIds.add(documentSnapshot.getId());
+                                    if(userData.getCreatedCourses().size() < 1){
+                                        courses.clear();
+                                        courseIds.clear();
+                                    }
+                                    if(!documentSnapshots.isEmpty()){
+                                        for(DocumentSnapshot enrolledCourse: documentSnapshots){
+                                            if(userData.getEnrolledCourses().indexOf(enrolledCourse.getId()) >= 0){
+                                                Course course2 = enrolledCourse.toObject(Course.class);
+                                                courses.add(course2);
+                                                courseIds.add(enrolledCourse.getId());
+                                            }
                                         }
                                     }
+
                                     if(courses.isEmpty()){
                                         Fragment fragment = new NotFoundFragment();
                                         Bundle arguments = new Bundle();
