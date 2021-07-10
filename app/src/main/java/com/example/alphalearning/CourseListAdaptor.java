@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
     private List<Course> coursesList;
     private List<String> courseIds;
     private  ViewGroup parent;
-    private String userId;
+    private String userId, fragmentName;
     private FirebaseFirestore firestore;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -50,11 +51,12 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
 
 
 
-    public CourseListAdaptor(Context context, List<Course> coursesList, String userId, List<String> courseIds) {
+    public CourseListAdaptor(Context context, List<Course> coursesList, String userId, List<String> courseIds, String fragmentName) {
         this.coursesList = coursesList;
         this.context = context;
         this.userId = userId;
         this.courseIds = courseIds;
+        this.fragmentName = fragmentName;
     }
 
     private Bitmap getImageBitmap(String src) {
@@ -86,17 +88,26 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        TextView title;
+        TextView title, courseCategory;
         ImageView courseImage;
         Button courseBtn;
+        LinearLayout layout;
 
         title = holder.itemView.findViewById(R.id.courseName);
         courseImage = holder.itemView.findViewById(R.id.courseImage);
         courseBtn = holder.itemView.findViewById(R.id.courseBtn);
+        courseCategory = holder.itemView.findViewById(R.id.courseCategory);
+        layout = holder.itemView.findViewById(R.id.layoutCourseList);
 
 
 
         title.setText(coursesList.get(position).getName());
+        courseCategory.setText(coursesList.get(position).getCategory());
+
+
+        if(!fragmentName.equals("home")){
+            layout.setVisibility(View.GONE);
+        }
 
         if(userId.equals(coursesList.get(position).getCreatedBy())){
             courseBtn.setText("Edit Course");

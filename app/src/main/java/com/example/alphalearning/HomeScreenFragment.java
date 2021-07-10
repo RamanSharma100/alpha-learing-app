@@ -78,7 +78,7 @@ public class HomeScreenFragment extends Fragment {
                     greetUser = view.findViewById(R.id.greetUser);
                     String userGreetText = "Hello, "+ userData.getName() ;
                     greetUser.setText(userGreetText);
-                    firestore.collection("courses").whereEqualTo("createdBy", userData.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    firestore.collection("courses").whereEqualTo("createdBy", user.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             courses.clear();

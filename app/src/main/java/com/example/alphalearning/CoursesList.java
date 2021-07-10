@@ -53,7 +53,7 @@ public class CoursesList extends Fragment {
         recyclerView = view.findViewById(R.id.yourCoursesRecyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        CourseListAdaptor adapter = new CourseListAdaptor(getContext(),courses,userId,courseIds);
+        CourseListAdaptor adapter = new CourseListAdaptor(getContext(),courses,userId,courseIds, "home");
         recyclerView.setAdapter(adapter);
 
 

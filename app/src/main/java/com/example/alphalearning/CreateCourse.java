@@ -1,5 +1,6 @@
 package com.example.alphalearning;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,11 +15,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +33,7 @@ public class CreateCourse extends AppCompatActivity implements AdapterView.OnIte
     private Button next;
     private String category = "Web Developement", courseName, courseDecription;
     private EditText editName, editDescription;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,7 @@ public class CreateCourse extends AppCompatActivity implements AdapterView.OnIte
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         final FirebaseFirestore firestore= FirebaseFirestore.getInstance();
         final FirebaseUser user = auth.getCurrentUser();
+        userId = getIntent().getExtras().getString("userId");
 
         next=findViewById(R.id.btnnext);
 
@@ -67,14 +74,46 @@ public class CreateCourse extends AppCompatActivity implements AdapterView.OnIte
 
                 // creating object for course
 
-                final Course course = new Course(category,user.getUid(), courseName, "", Arrays.asList(), Arrays.asList(), 0, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), courseDecription);
+                final Course course = new Course(category,userId, courseName, "", Arrays.asList(), Arrays.asList(), 0, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), courseDecription);
                 Log.e("hello", course.getCreatedAt().toString());
 
-//                firestore.collection("courses").add().
+                firestore.collection("courses").add(course).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+
+                        firestore.collection("users").document(userId).update("createdCourses", FieldValue.arrayUnion(documentReference.getId())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(CreateCourse.this, "Course created Successfully! Please add Image", Toast.LENGTH_SHORT).show();
+                                HomeScreenFragment.courses.add(course);
+                                HomeScreenFragment.courseIds.add(documentReference.getId());
+                                Intent intent = new Intent(CreateCourse.this, AddCourseImage.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("courseId", documentReference.getId());
+                                bundle.putString("userId", userId);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(CreateCourse.this, e.getMessage()+"", Toast.LENGTH_LONG).show();
+                            }
+                        });
 
 
-//                startActivity(new Intent(CreateCourse.this,AddCourseImage.class));
-//                finish();
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CreateCourse.this, e.getMessage()+"", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
             }
         });
     }

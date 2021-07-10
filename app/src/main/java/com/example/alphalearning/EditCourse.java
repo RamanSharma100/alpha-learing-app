@@ -81,6 +81,7 @@ public class EditCourse extends AppCompatActivity {
                 bundle.putString("userId", userId);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             }
         });
 

@@ -33,6 +33,7 @@
         app:layout_constraintVertical_bias="1.0"
         android:paddingEnd="40dp"
         android:paddingStart="0dp"
+        android:paddingBottom="35dp"
         />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addCourseBtn"

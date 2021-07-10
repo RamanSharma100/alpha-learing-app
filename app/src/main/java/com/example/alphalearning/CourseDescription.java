@@ -1,5 +1,6 @@
 package com.example.alphalearning;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.FieldValue;
@@ -86,6 +88,13 @@ public class CourseDescription extends AppCompatActivity {
         if(!userId.equals(course.getCreatedBy())){
             editCourse.setText("Un-Enroll Course");
         }
+        if(Dashboard.userData.getCreatedCourses().indexOf(courseId) == -1){
+            editCourse.setVisibility(View.GONE);
+        }
+
+        if(Dashboard.userData.getEnrolledCourses().indexOf(courseId) == -1 && !userId.equals(course.getCreatedBy())){
+            viewCourse.setText("Enroll Course");
+        }
 
 
 
@@ -130,17 +139,42 @@ public class CourseDescription extends AppCompatActivity {
         viewCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(course.getVideos().size() > 0) {
-                    Intent intent = new Intent(CourseDescription.this, ViewCourse.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userId", userId);
-                    bundle.putString("courseId", courseId);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                if(Dashboard.userData.getEnrolledCourses().indexOf(courseId) == -1 && !userId.equals(course.getCreatedBy())){
+                    firestore.collection("courses").document(courseId).update("enrolledBy", FieldValue.arrayUnion(userId), "students", course.getStudents() + 1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            firestore.collection("users").document(userId).update("enrolledCourses", FieldValue.arrayUnion(courseId)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(CourseDescription.this, "Thanks for enrolling the course!", Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(CourseDescription.this, e.getMessage()+"", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(CourseDescription.this, e.getMessage()+"", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }else{
+                    if(course.getVideos().size() > 0) {
+                        Intent intent = new Intent(CourseDescription.this, ViewCourse.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userId", userId);
+                        bundle.putString("courseId", courseId);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(CourseDescription.this, "This course is not having any videos", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else{
-                    Toast.makeText(CourseDescription.this, "This course is not having any videos", Toast.LENGTH_LONG).show();
-                }
+
             }
         });
 

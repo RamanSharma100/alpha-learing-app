@@ -210,6 +210,13 @@ public class AddCourseImage extends AppCompatActivity {
                                                                     Toast.LENGTH_SHORT)
                                                             .show();
                                                     HomeScreenFragment.courses.get(HomeScreenFragment.courseIds.indexOf(courseId)).setThumbnail(uri.toString());
+                                                    Intent intent = new Intent(AddCourseImage.this, EditCourse.class);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("courseId", courseId);
+                                                    bundle.putString("userId", userId);
+                                                    intent.putExtras(bundle);
+                                                    startActivity(intent);
+                                                    finish();
 
                                                 }
                                             });

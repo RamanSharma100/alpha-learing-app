@@ -88,6 +88,9 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, CreateCourse.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", user.getUid());
+                intent.putExtras(bundle);
                 startActivity(intent);
 
             }
