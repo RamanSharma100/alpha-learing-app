@@ -113,7 +113,7 @@ public class CourseListAdaptor extends RecyclerView.Adapter<CourseListAdaptor.Vi
         if(userId.equals(coursesList.get(position).getCreatedBy())){
             courseBtn.setText("Edit Course");
         }else{
-            courseBtn.setText("Go to course");
+            courseBtn.setVisibility(View.GONE);
         }
 
 

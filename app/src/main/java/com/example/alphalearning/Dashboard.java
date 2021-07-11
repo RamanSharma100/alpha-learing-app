@@ -36,6 +36,7 @@ public class Dashboard extends AppCompatActivity {
     public static User userData;
     private FirebaseFirestore firestore;
     private boolean shouldExecuteOnResume = false;
+    private String fragmentName = "Home";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +106,10 @@ public class Dashboard extends AppCompatActivity {
 
                 switch (tab.getPosition()){
                     case 0:
+                        fragmentName = "Home";
                         break;
                     case 1:
+                        fragmentName = "Courses";
                         fragment = new FindCourses();
                         Bundle arguments = new Bundle();
                         arguments.putBoolean( "instructor" , userData.isInstructor());
@@ -168,9 +171,21 @@ public class Dashboard extends AppCompatActivity {
                     if(!userData.isInstructor()){
                         floatingActionButton.setVisibility(View.GONE);
                     }
+
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.Screens, new HomeScreenFragment());
+                    Fragment fragment = new HomeScreenFragment();
+                    if(fragmentName == "Courses"){
+                        fragment = new FindCourses();
+                        Bundle arguments = new Bundle();
+                        arguments.putBoolean( "instructor" , userData.isInstructor());
+                        arguments.putString("userId", userData.getUid());
+                        fragment.setArguments(arguments);
+                    }else{
+                        fragment = new HomeScreenFragment();
+                    }
+
+                    ft.replace(R.id.Screens, fragment);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.commit();
                     progressDialog.dismiss();

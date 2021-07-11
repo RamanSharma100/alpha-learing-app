@@ -94,7 +94,7 @@ public class CourseDescription extends AppCompatActivity {
                 if(!userId.equals(course.getCreatedBy())){
                     editCourse.setText("Un-Enroll Course");
                 }
-                if(Dashboard.userData.getEnrolledCourses().indexOf(courseId) == -1){
+                if(Dashboard.userData.getCreatedCourses().indexOf(courseId) == -1 && Dashboard.userData.getEnrolledCourses().indexOf(courseId) == -1){
                     editCourse.setVisibility(View.GONE);
                 }
 
