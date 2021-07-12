@@ -78,6 +78,7 @@ public class VideosListAdaptor extends RecyclerView.Adapter<VideosListAdaptor.Vi
             @Override
             public void onClick(View v) {
                 ((ViewCourse) v.getContext()).onClickCalled(v,position);
+                notifyDataSetChanged();
             }
         });
 
