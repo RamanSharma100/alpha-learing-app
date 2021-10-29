@@ -22,19 +22,18 @@
 
     <FrameLayout
         android:id="@+id/Screens"
-        android:layout_width="411dp"
-        android:layout_height="555dp"
+        android:layout_width="414dp"
+        android:layout_height="711dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabs"
         app:layout_constraintTop_toTopOf="@+id/header"
-        app:layout_constraintVertical_bias="1.0"
-        android:paddingEnd="40dp"
-        android:paddingStart="0dp"
-        android:paddingBottom="35dp"
-        />
+        app:layout_constraintVertical_bias="1.0" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addCourseBtn"
         android:layout_width="wrap_content"
